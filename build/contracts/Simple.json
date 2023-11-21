@@ -1,0 +1,364 @@
+{
+  "contractName": "Simple",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "num1",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "num2",
+      "outputs": [
+        {
+          "internalType": "int256",
+          "name": "",
+          "type": "int256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[],\"name\":\"num1\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"num2\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"\",\"type\":\"int256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Simple.sol\":\"Simple\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Simple.sol\":{\"keccak256\":\"0xf88e0eb20cefab3527a38293ca3c83fed00726a91a597f9add54038bbe0b4668\",\"urls\":[\"bzz-raw://2c0847a36df1ac65f71f83eaf131dcd3030d412cecf3adee2012c7b13bf5ddea\",\"dweb:/ipfs/QmYFPpsuer6PeJrBXRgiWa9c8kYABZBAPRwmPXBagxX6Cf\"]}},\"version\":1}",
+  "bytecode": "0x608060405260226000557fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe060015534801561003957600080fd5b5060b0806100486000396000f3fe6080604052348015600f57600080fd5b506004361060325760003560e01c806315d4266c1460375780633b9eac4b146053575b600080fd5b603d606f565b6040518082815260200191505060405180910390f35b60596075565b6040518082815260200191505060405180910390f35b60015481565b6000548156fea265627a7a723158209961a9e43c8eb9d65a955899a7f4168a51c1f5f5366904c881c4b6c68e71ea8464736f6c63430005100032",
+  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060325760003560e01c806315d4266c1460375780633b9eac4b146053575b600080fd5b603d606f565b6040518082815260200191505060405180910390f35b60596075565b6040518082815260200191505060405180910390f35b60015481565b6000548156fea265627a7a723158209961a9e43c8eb9d65a955899a7f4168a51c1f5f5366904c881c4b6c68e71ea8464736f6c63430005100032",
+  "sourceMap": "69:74:1:-;;;110:2;91:21;;136:3;119:20;;69:74;8:9:-1;5:2;;;30:1;27;20:12;5:2;69:74:1;;;;;;;",
+  "deployedSourceMap": "69:74:1:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;69:74:1;;;;;;;;;;;;;;;;;;;;;;;;119:20;;;:::i;:::-;;;;;;;;;;;;;;;;;;;91:21;;;:::i;:::-;;;;;;;;;;;;;;;;;;;119:20;;;;:::o;91:21::-;;;;:::o",
+  "source": "// SPDX-License-Identifier: MIT\r\npragma solidity >=0.4.22 <0.9.0;\r\n\r\ncontract Simple{\r\n    uint public num1 = 34;\r\n    int public num2 =-32;\r\n}",
+  "sourcePath": "D:\\Blockchain Project\\pet-shop-box\\contracts\\Simple.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/Simple.sol",
+    "exportedSymbols": {
+      "Simple": [
+        42
+      ]
+    },
+    "id": 43,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 34,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.4",
+          ".22",
+          "<",
+          "0.9",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "33:32:1"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 42,
+        "linearizedBaseContracts": [
+          42
+        ],
+        "name": "Simple",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 37,
+            "name": "num1",
+            "nodeType": "VariableDeclaration",
+            "scope": 42,
+            "src": "91:21:1",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 35,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "91:4:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "3334",
+              "id": 36,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "110:2:1",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_34_by_1",
+                "typeString": "int_const 34"
+              },
+              "value": "34"
+            },
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 41,
+            "name": "num2",
+            "nodeType": "VariableDeclaration",
+            "scope": 42,
+            "src": "119:20:1",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_int256",
+              "typeString": "int256"
+            },
+            "typeName": {
+              "id": 38,
+              "name": "int",
+              "nodeType": "ElementaryTypeName",
+              "src": "119:3:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_int256",
+                "typeString": "int256"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "id": 40,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "lValueRequested": false,
+              "nodeType": "UnaryOperation",
+              "operator": "-",
+              "prefix": true,
+              "src": "136:3:1",
+              "subExpression": {
+                "argumentTypes": null,
+                "hexValue": "3332",
+                "id": 39,
+                "isConstant": false,
+                "isLValue": false,
+                "isPure": true,
+                "kind": "number",
+                "lValueRequested": false,
+                "nodeType": "Literal",
+                "src": "137:2:1",
+                "subdenomination": null,
+                "typeDescriptions": {
+                  "typeIdentifier": "t_rational_32_by_1",
+                  "typeString": "int_const 32"
+                },
+                "value": "32"
+              },
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_minus_32_by_1",
+                "typeString": "int_const -32"
+              }
+            },
+            "visibility": "public"
+          }
+        ],
+        "scope": 43,
+        "src": "69:74:1"
+      }
+    ],
+    "src": "33:110:1"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "project:/contracts/Simple.sol",
+      "exportedSymbols": {
+        "Simple": [
+          42
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            ">=",
+            "0.4",
+            ".22",
+            "<",
+            "0.9",
+            ".0"
+          ]
+        },
+        "id": 34,
+        "name": "PragmaDirective",
+        "src": "33:32:1"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            42
+          ],
+          "name": "Simple",
+          "scope": 43
+        },
+        "children": [
+          {
+            "attributes": {
+              "constant": false,
+              "name": "num1",
+              "scope": 42,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "uint256",
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "uint",
+                  "type": "uint256"
+                },
+                "id": 35,
+                "name": "ElementaryTypeName",
+                "src": "91:4:1"
+              },
+              {
+                "attributes": {
+                  "argumentTypes": null,
+                  "hexvalue": "3334",
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "lValueRequested": false,
+                  "subdenomination": null,
+                  "token": "number",
+                  "type": "int_const 34",
+                  "value": "34"
+                },
+                "id": 36,
+                "name": "Literal",
+                "src": "110:2:1"
+              }
+            ],
+            "id": 37,
+            "name": "VariableDeclaration",
+            "src": "91:21:1"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "name": "num2",
+              "scope": 42,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "int256",
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "int",
+                  "type": "int256"
+                },
+                "id": 38,
+                "name": "ElementaryTypeName",
+                "src": "119:3:1"
+              },
+              {
+                "attributes": {
+                  "argumentTypes": null,
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "lValueRequested": false,
+                  "operator": "-",
+                  "prefix": true,
+                  "type": "int_const -32"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "argumentTypes": null,
+                      "hexvalue": "3332",
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "lValueRequested": false,
+                      "subdenomination": null,
+                      "token": "number",
+                      "type": "int_const 32",
+                      "value": "32"
+                    },
+                    "id": 39,
+                    "name": "Literal",
+                    "src": "137:2:1"
+                  }
+                ],
+                "id": 40,
+                "name": "UnaryOperation",
+                "src": "136:3:1"
+              }
+            ],
+            "id": 41,
+            "name": "VariableDeclaration",
+            "src": "119:20:1"
+          }
+        ],
+        "id": 42,
+        "name": "ContractDefinition",
+        "src": "69:74:1"
+      }
+    ],
+    "id": 43,
+    "name": "SourceUnit",
+    "src": "33:110:1"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+  },
+  "networks": {
+    "5777": {
+      "events": {},
+      "links": {},
+      "address": "0xB23817f8a3A846f94B713387716a761921dD5644",
+      "transactionHash": "0x9f1eeb1efbd214fa2b3f968b7ca64b51dde9a74c9131a734b1e2d9f66a18796f"
+    }
+  },
+  "schemaVersion": "3.4.16",
+  "updatedAt": "2023-11-21T12:31:57.465Z",
+  "networkType": "ethereum",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}
