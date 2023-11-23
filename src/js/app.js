@@ -1,68 +1,109 @@
 App = {
   web3Provider: null,
   contracts: {},
+  carbonCapContractInstance: null,
 
-  init: async function() {
-    // Load pets.
-    $.getJSON('../pets.json', function(data) {
-      var petsRow = $('#petsRow');
-      var petTemplate = $('#petTemplate');
-
-      for (i = 0; i < data.length; i ++) {
-        petTemplate.find('.panel-title').text(data[i].name);
-        petTemplate.find('img').attr('src', data[i].picture);
-        petTemplate.find('.pet-breed').text(data[i].breed);
-        petTemplate.find('.pet-age').text(data[i].age);
-        petTemplate.find('.pet-location').text(data[i].location);
-        petTemplate.find('.btn-adopt').attr('data-id', data[i].id);
-
-        petsRow.append(petTemplate.html());
-      }
-    });
-
+  init: async function () {
+    // Load CarbonCap contract.
     return await App.initWeb3();
   },
 
-  initWeb3: async function() {
-    /*
-     * Replace me...
-     */
+  initWeb3: async function () {
+    // Modern dapp browsers
+    if (window.ethereum) {
+      App.web3Provider = window.ethereum;
+      try {
+        // Request account access
+        await window.ethereum.enable();
+      } catch (error) {
+        // User denied account access...
+        console.error("User denied account access");
+      }
+    }
+    // Legacy dapp browsers
+    else if (window.web3) {
+      App.web3Provider = window.web3.currentProvider;
+    }
+    // If no injected web3 instance is detected, fallback to Ganache
+    else {
+      App.web3Provider = new Web3.providers.HttpProvider(
+        "http://localhost:7545"
+      );
+    }
+    web3 = new Web3(App.web3Provider);
 
     return App.initContract();
   },
 
-  initContract: function() {
-    /*
-     * Replace me...
-     */
+  initContract: function () {
+    $.getJSON("CarbonCap.json", function (data) {
+      // Get the necessary contract artifact file and instantiate it with truffle-contract
+      var CarbonCapArtifact = data;
+      App.contracts.CarbonCap = TruffleContract(CarbonCapArtifact);
 
-    return App.bindEvents();
+      // Set the provider for our contract
+      App.contracts.CarbonCap.setProvider(App.web3Provider);
+
+      // Initialize the contract instance
+      App.getCarbonCapContractInstance();
+
+      // Bind events
+      return App.bindEvents();
+    });
   },
 
-  bindEvents: function() {
-    $(document).on('click', '.btn-adopt', App.handleAdopt);
+  getCarbonCapContractInstance: async function () {
+    try {
+      App.carbonCapContractInstance = await App.contracts.CarbonCap.deployed();
+    } catch (error) {
+      console.error("Error getting CarbonCap contract instance:", error);
+    }
   },
 
-  markAdopted: function() {
-    /*
-     * Replace me...
-     */
+  bindEvents: function () {
+    $(document).on("click", ".btn-record-emissions", App.handleRecordEmissions);
+    $(document).on("click", ".btn-purchase-credits", App.handlePurchaseCredits);
+    // Add more event bindings for your contract interactions
   },
 
-  handleAdopt: function(event) {
+  handleRecordEmissions: function (event) {
     event.preventDefault();
+    var emissions = parseInt($("#emissionsValue").val());
+    App.carbonCapContractInstance
+      .recordEmissions(emissions, { from: "YOUR_FACTORY_ADDRESS" })
+      .then(function (result) {
+        // Handle success
+        console.log("Emissions recorded:", result);
+      })
+      .catch(function (err) {
+        // Handle errors
+        console.error("Error recording emissions:", err);
+      });
+  },
 
-    var petId = parseInt($(event.target).data('id'));
+  handlePurchaseCredits: function (event) {
+    event.preventDefault();
+    var amount = parseInt($("#creditsValue").val());
+    var organizationAddress = "ORGANIZATION_ADDRESS";
+    App.carbonCapContractInstance
+      .purchaseCredits(amount, organizationAddress, {
+        from: "YOUR_FACTORY_ADDRESS",
+      })
+      .then(function (result) {
+        // Handle success
+        console.log("Credits purchased:", result);
+      })
+      .catch(function (err) {
+        // Handle errors
+        console.error("Error purchasing credits:", err);
+      });
+  },
 
-    /*
-     * Replace me...
-     */
-  }
-
+  // Add more functions to interact with other functionalities of the contract
 };
 
-$(function() {
-  $(window).load(function() {
+$(function () {
+  $(window).load(function () {
     App.init();
   });
 });
