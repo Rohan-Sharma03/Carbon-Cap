@@ -1,61 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Pete's Pet Shop</title>
-
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <meta charset="UTF-8" />
+    <title>Carbon-Cap</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Add custom CSS styles if needed */
+      .scrollable-section {
+        height: 200px;
+        overflow-y: scroll;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
+      <h1 class="text-center">An Government Regulatory for Carbon Credits</h1>
+      <hr />
+
+      <!-- Profile Section for Government -->
       <div class="row">
-        <div class="col-xs-12 col-sm-8 col-sm-push-2">
-          <h1 class="text-center">Pete's Pet Shop</h1>
-          <hr/>
-          <br/>
-        </div>
-      </div>
-
-      <div id="petsRow" class="row">
-        <!-- PETS LOAD HERE -->
-      </div>
-    </div>
-
-    <div id="petTemplate" style="display: none;">
-      <div class="col-sm-6 col-md-4 col-lg-3">
-        <div class="panel panel-default panel-pet">
-          <div class="panel-heading">
-            <h3 class="panel-title">Scrappy</h3>
+        <div class="col-md-12">
+          <div class="form-group">
+            <span> Name: Government of India </span>
           </div>
-          <div class="panel-body">
-            <img alt="140x140" data-src="holder.js/140x140" class="img-rounded img-center" style="width: 100%;" src="https://animalso.com/wp-content/uploads/2017/01/Golden-Retriever_6.jpg" data-holder-rendered="true">
-            <br/><br/>
-            <strong>Breed</strong>: <span class="pet-breed">Golden Retriever</span><br/>
-            <strong>Age</strong>: <span class="pet-age">3</span><br/>
-            <strong>Location</strong>: <span class="pet-location">Warren, MI</span><br/><br/>
-            <button class="btn btn-default btn-adopt" type="button" data-id="0">Adopt</button>
+          <div class="form-group">
+            <span> Address: hex code </span>
           </div>
         </div>
       </div>
+
+      <!-- Factory Emissions Data Table -->
+      <div class="row">
+        <div class="col-md-12">
+          <h3>Factory Emissions Data</h3>
+          <div class="scrollable-section">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Factory Address</th>
+                  <th>Total Emission Data (MTCO2e)</th>
+                  <th>Available Credits (MTCO2e)</th>
+                  <th>Verify</th>
+                </tr>
+              </thead>
+              <tbody id="factoryEmissionsTable">
+                <!-- Factory emission data will load here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p>Total Emission : Sum of the emission</p>
+      </div>
+
+      <!-- Certification and Verification Forms -->
+      <div class="row">
+        <div class="col-md-6">
+          <h3>Certify Organization</h3>
+          <form id="certifyOrganizationForm">
+            <div class="form-group">
+              <label for="organizationAddress">Organization Address:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="organizationAddress"
+                placeholder="Organization Address"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary">Certify</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Factory Emissions Data Table -->
+      <div class="row">
+        <div class="col-md-12">
+          <h3>Certified organizaitons</h3>
+          <div class="scrollable-section">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Org's Address</th>
+                  <th>Available Credits (MTCO2e)</th>
+                  <th>Take Action</th>
+                </tr>
+              </thead>
+              <tbody id="factoryEmissionsTable">
+                <!-- Factory emission data will load here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      x
     </div>
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/web3.min.js"></script>
-    <script src="js/truffle-contract.js"></script>
-    <script src="js/app.js"></script>
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Web3.js and Contract ABI -->
+    <!-- Include your Web3.js, Contract ABI, and necessary script here -->
+    <script>
+      // JavaScript code to interact with Web3.js and your smart contract
+      // Write code to handle government profile form submission and interactions
+
+      // Sample function to fetch available credits of each factory and display them
+      function getAvailableCreditsForFactories() {
+        // Mock data for factory addresses (replace with actual addresses)
+        const factoryAddresses = [
+          "0xFactoryAddress1",
+          "0xFactoryAddress2",
+          "0xFactoryAddress3",
+        ];
+
+        // Loop through factory addresses and fetch available credits for each factory
+        factoryAddresses.forEach((factoryAddress) => {
+          // Replace this part with your contract interaction code to get available credits for each factory
+          const availableCredits = Math.floor(Math.random() * 100); // Replace with actual function call to get credits
+          const newRow = `
+          <tr>
+            <td>${factoryAddress}</td>
+            <td>Total Emission Data</td>
+            <td>${availableCredits} MTCO2e</td>
+            <td><button class="btn btn-primary">Verify</button></td>
+          </tr>`;
+          $("#factoryEmissionsTable").append(newRow);
+        });
+      }
+
+      // Call the function to fetch and display available credits when the page loads
+      $(document).ready(function () {
+        getAvailableCreditsForFactories();
+      });
+    </script>
   </body>
 </html>
