@@ -161,4 +161,8 @@ contract CarbonCap {
         }
         return false;
     }
+        // Function to fetch the government body address
+    function getGovernmentBodyAddress() public view returns (address) {
+        return governmentBody;
+    }
 }

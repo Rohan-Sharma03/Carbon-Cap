@@ -1,9 +1,9 @@
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Web3 from "web3";
 import Factory from "./Factory";
 import Government from "./Goverment";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Organization from "./Organization";
-import React, { useState, useEffect } from "react";
-import Web3 from "web3";
 
 function App() {
   const [connectedAccount, setConnectedAccount] = useState("");
@@ -38,13 +38,6 @@ function App() {
 
   return (
     <div>
-      {/* Send account information to Government component */}
-      {/* {connectedAccount && (
-        <Government account={connectedAccount} balance={accountBalance} />
-      )} */}
-
-      {/* Add your component UI or JSX here */}
-      {/* For instance, you can uncomment the Router block below */}
       <div>
         <Router>
           <Routes>

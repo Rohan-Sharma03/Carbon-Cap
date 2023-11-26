@@ -65,11 +65,6 @@ const Organization = () => {
     }
   };
 
-  // Function to handle buying credits
-  const handleBuyCredits = async () => {
-    // Similar logic as handlePayRegistrationFee for buying credits
-  };
-
   // Function to update selected account when changed in MetaMask
   const handleAccountChange = async () => {
     const accounts = await web3.eth.getAccounts();
@@ -90,30 +85,31 @@ const Organization = () => {
   }, []);
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold underline">Organization</h1>
-      <div>
-        <p>Organization component</p>
-        {/* Input for registration fee */}
-        <input
-          type="number"
-          placeholder="Enter Registration Fee (in Ether)"
-          value={registrationFee}
-          onChange={(e) => setRegistrationFee(Number(e.target.value))}
-        />
-        {/* Button to pay registration fee */}
-        <button onClick={handlePayRegistrationFee}>Pay Registration Fee</button>
-
-        {/* Input for buying credits */}
-        <input
-          type="number"
-          placeholder="Enter Credits Amount"
-          value={creditsAmount}
-          onChange={(e) => setCreditsAmount(Number(e.target.value))}
-        />
-        {/* Button to buy credits */}
-        <button onClick={handleBuyCredits}>Buy Credits</button>
-        {/* Add other UI elements */}
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="bg-white p-6 rounded-lg shadow-md">
+        <h1 className="text-3xl font-bold mb-4">Organization</h1>
+        <div className="mb-4">
+          <label
+            htmlFor="registrationFee"
+            className="block text-gray-700 font-semibold mb-2"
+          >
+            Registration Fee (in Ether)
+          </label>
+          <input
+            id="registrationFee"
+            type="number"
+            placeholder="Enter Registration Fee"
+            value={registrationFee}
+            onChange={(e) => setRegistrationFee(Number(e.target.value))}
+            className="border rounded-md px-3 py-2 w-full focus:outline-none focus:border-blue-500"
+          />
+          <button
+            onClick={handlePayRegistrationFee}
+            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md mt-2"
+          >
+            Pay Registration Fee
+          </button>
+        </div>
       </div>
     </div>
   );
