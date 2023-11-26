@@ -145,20 +145,20 @@ const Government = ({ account, balance }) => {
             <p className="text-red-500 mt-2">{transactionStatus}</p>
           )}
         </div>
-      </div>
-      <div className="flex justify-between mt-4">
-        <button
-          className="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-md"
-          onClick={handleFactory}
-        >
-          Go to Factory
-        </button>
-        <button
-          className="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-md"
-          onClick={handleOrganization}
-        >
-          Go to Organization
-        </button>
+        <div className="flex justify-between mt-4 gap-4">
+          <button
+            className="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-md"
+            onClick={handleFactory}
+          >
+            Go to Factory
+          </button>
+          <button
+            className="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-md"
+            onClick={handleOrganization}
+          >
+            Go to Organization
+          </button>
+        </div>
       </div>
     </div>
   );
