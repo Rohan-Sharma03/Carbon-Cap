@@ -84,7 +84,7 @@ function registerFactory(address factory) public onlyGovernmentBody onlyUnregist
     // Function to record emissions data by registered factories
     function recordEmissions(uint emissions) public onlyRegisteredFactory {
         require(emissions > 0, "Emissions data must be greater than zero MTCO2e.");
-        require(availableCredits[msg.sender].amount >= emissions, "Insufficient available credits.");
+        // require(availableCredits[msg.sender].amount >= emissions, "Insufficient available credits.");
 
         availableCredits[msg.sender].amount -= emissions;
 
@@ -148,17 +148,13 @@ function buyCreditsFromOrganization(address payable organization, uint creditsAm
     require(creditsAmount > 0, "Credits amount should be greater than zero.");
     require(registrationFeePaidByOrganization[organization], "Organization must pay registration fee.");
 
-    uint creditsPrice = creditsAmount * 2; // Calculate the price for the requested credits
-    // require(address(this).balance >= creditsPrice, "Insufficient Ether balance in the contract.");
+    organization.transfer(creditsAmount); // 
 
-    organization.transfer(creditsPrice); // Transfer Ether (2 times the credits price) to the organization
+    emit CreditsPurchased(msg.sender, organization, creditsAmount); // Log the purchase of credits
 
     availableCredits[msg.sender].amount += creditsAmount; // Update factory's available credits
     availableCredits[msg.sender].organization = organization;
-
-    emit CreditsPurchased(msg.sender, organization, creditsAmount); // Log the purchase of credits
 }
-
 
     // Function for the government body to withdraw Ether from the contract
     function withdrawEther(uint amount) external onlyGovernmentBody {
@@ -184,5 +180,31 @@ function certifyOrganization(address organization) public onlyGovernmentBody onl
         // Function to fetch the government body address
     function getGovernmentBodyAddress() public view returns (address) {
         return governmentBody;
+    }
+
+    function getFactoryAddresses() public view onlyGovernmentBody returns (address[] memory) {
+        uint totalFactories = registeredFactories.length;
+        address[] memory factoryAddresses = new address[](totalFactories);
+
+        for (uint i = 0; i < totalFactories; i++) {
+            factoryAddresses[i] = registeredFactories[i];
+        }
+
+        return factoryAddresses;
+    }
+
+    function getFactoryEmissions(address factory) public view onlyGovernmentBody returns (uint[] memory) {
+        uint emissionsCount = factoryEmissions[factory].length;
+        uint[] memory emissions = new uint[](emissionsCount);
+
+        for (uint i = 0; i < emissionsCount; i++) {
+            emissions[i] = factoryEmissions[factory][i].emissions;
+        }
+
+        return emissions;
+    }
+
+    function getFactoryAvailableCredits(address factory) public view onlyGovernmentBody returns (uint) {
+        return availableCredits[factory].amount;
     }
 }

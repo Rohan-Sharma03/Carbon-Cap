@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Web3 from "web3";
-import CarbonCapData from "./truffle_abis/CarbonCap.json"; // Import the ABI and bytecode
+import CarbonCapData from "./truffle_abis/CarbonCap.json";
 
 const Organization = ({ account }) => {
   const [web3, setWeb3] = useState(null);
@@ -78,19 +78,18 @@ const Organization = ({ account }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-6 rounded-lg shadow-md">
+    <div className="min-h-screen flex items-center justify-center  bg-gray-100">
+      <div className="bg-white p-6 rounded-lg shadow-md w-10/12">
         <h1 className="text-3xl font-bold mb-4">Organization</h1>
-        <p className="mb-4">
-          Organization Address: {organizationAddress}{" "}
-          {/* Display organization address */}
+        <p className="text-lg mb-4">
+          Organizaiton Address: {organizationAddress}
         </p>
         <div className="mb-4">
           <label
             htmlFor="organizationAddress"
             className="block text-gray-700 font-semibold mb-2"
           >
-            Organizaiton Address
+            Organization Address
           </label>
           <input
             id="organizationAddress"
@@ -103,7 +102,7 @@ const Organization = ({ account }) => {
 
           <label
             htmlFor="registrationFee"
-            className="block text-gray-700 font-semibold mb-2"
+            className="block text-gray-700 font-semibold mb-2 mt-4"
           >
             Registration Fee (in Ether)
           </label>
@@ -117,7 +116,7 @@ const Organization = ({ account }) => {
           />
           <button
             onClick={handlePayRegistrationFee}
-            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md mt-2"
+            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md mt-4 w-full"
           >
             Pay Registration Fee
           </button>
