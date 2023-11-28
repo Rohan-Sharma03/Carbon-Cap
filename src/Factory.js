@@ -1,17 +1,21 @@
-// Factory.js
-
 import React, { useState, useEffect } from "react";
 import Web3 from "web3";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import CarbonCapData from "./truffle_abis/CarbonCap.json";
 
 const Factory = ({ account }) => {
   const [web3, setWeb3] = useState(null);
   const [carbonCapContract, setCarbonCapContract] = useState(null);
-  const [emissionsValue, setEmissionsValue] = useState(0);
   const [factoryAddress, setFactoryAddress] = useState("");
   const [isDataSubmitted, setIsDataSubmitted] = useState(false);
-  const [creditsAmount, setCreditsAmount] = useState(0); // Added state for creditsAmount
+  const [creditsAmount, setCreditsAmount] = useState("");
+  const [organizationAddress, setOrganizationAddress] = useState("");
+  const [emissions, setEmissions] = useState("");
+  const [dataSubmitted, setDataSubmitted] = useState(false);
 
+  const [params] = useSearchParams();
+  const factory = params.get("factoryAddress");
+  console.log(factory);
   useEffect(() => {
     async function initializeWeb3() {
       if (window.ethereum) {
@@ -34,30 +38,12 @@ const Factory = ({ account }) => {
       }
     }
 
+    // if (account) {
+    //   setFactoryAddress(factory);
+    // }
+    setFactoryAddress("0x0853D0946768c102DC987e32c9d17a186803f950");
     initializeWeb3();
-  }, []);
-
-  const handleRegisterFactory = async () => {
-    try {
-      if (!web3.utils.isAddress(factoryAddress)) {
-        throw new Error("Invalid factory address");
-      }
-
-      const gas = await carbonCapContract.methods
-        .registerFactory(factoryAddress)
-        .estimateGas({ from: account });
-
-      await carbonCapContract.methods
-        .registerFactory(factoryAddress)
-        .send({ from: account, gas });
-
-      console.log("Factory registered successfully!");
-      // Provide user feedback or update UI
-    } catch (error) {
-      console.error("Error while registering factory:", error);
-      // Handle error scenarios
-    }
-  };
+  }, [account]);
 
   const handleRecordEmissions = async () => {
     try {
@@ -65,10 +51,10 @@ const Factory = ({ account }) => {
         throw new Error("Invalid factory address");
       }
 
+      const emissionsValue = parseInt(emissions);
       if (isNaN(emissionsValue) || emissionsValue <= 0) {
         throw new Error("Invalid emissions value");
       }
-
       const gas = await carbonCapContract.methods
         .recordEmissions(emissionsValue)
         .estimateGas({ from: factoryAddress });
@@ -88,36 +74,59 @@ const Factory = ({ account }) => {
 
   const handleBuyCredits = async () => {
     try {
-      // Placeholder for handling buying credits logic
-      // Implement the logic for buying credits here based on your requirements
-      console.log("Buying credits logic will be implemented here.");
+      if (!web3.utils.isAddress(organizationAddress)) {
+        throw new Error("Invalid Organization address");
+      }
+
+      const creditAmt = parseInt(creditsAmount);
+      if (isNaN(creditAmt) || creditAmt <= 0) {
+        throw new Error("Invalid credit amount");
+      }
+
+      const gas = await carbonCapContract.methods
+        .buyCreditsFromOrganization(organizationAddress, creditAmt)
+        .estimateGas({ from: factoryAddress });
+
+      await carbonCapContract.methods
+        .buyCreditsFromOrganization(organizationAddress, creditAmt)
+        .send({ from: factoryAddress, gas });
+
+      // Specify the amount of Ether to transfer
+      const etherAmount = 0.1; // Example: 0.1 Ether
+
+      // Sending Ether to the organization's address
+      await web3.eth.sendTransaction({
+        to: organizationAddress,
+        from: factoryAddress,
+        value: web3.utils.toWei(etherAmount.toString(), "ether"),
+      });
+
+      console.log("Credits purchased successfully and Ether transferred.");
+      // Provide user feedback or update UI
     } catch (error) {
+      if (
+        error.message.includes("MetaMask - RPC Error: Internal JSON-RPC error")
+      ) {
+        // Show the error message in an alert box
+        window.alert(error.data);
+      } else {
+        // For other errors, display a generic error message
+        window.alert("An error occurred: " + error.message);
+      }
+      console.error(
+        "Error while buying credits and transferring Ether:",
+        error
+      );
       // Handle errors if any
-      console.error("Error while buying credits:", error);
     }
   };
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold underline mb-4">Factory</h1>
-      {/* Factory Registration */}
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold mb-2">Factory Registration</h2>
-        <input
-          type="text"
-          placeholder="Enter Factory Address"
-          className="border rounded-md px-3 py-2 mb-2 w-full"
-          value={factoryAddress}
-          onChange={(e) => setFactoryAddress(e.target.value)}
-        />
-        <button
-          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"
-          onClick={handleRegisterFactory}
-        >
-          Register Factory
-        </button>
-        {/* Display registration status */}
-      </div>
+
+      {/* Display Factory Address */}
+      <p className="text-lg mb-4">Factory Address: {factoryAddress}</p>
 
       {/* Record Emissions */}
       <div>
@@ -126,9 +135,10 @@ const Factory = ({ account }) => {
           type="number"
           placeholder="Enter Emissions (MTCO2e)"
           className="border rounded-md px-3 py-2 mb-2 w-full"
-          value={emissionsValue}
-          onChange={(e) => setEmissionsValue(Number(e.target.value))}
+          value={emissions}
+          onChange={(e) => setEmissions(e.target.value)}
         />
+
         <button
           className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md"
           onClick={handleRecordEmissions}
@@ -136,7 +146,7 @@ const Factory = ({ account }) => {
           Record Emissions
         </button>
         {/* Display submission status */}
-        {isDataSubmitted && (
+        {dataSubmitted && (
           <p className="text-green-500 mt-2">
             Emissions data submitted successfully!
           </p>
@@ -147,12 +157,25 @@ const Factory = ({ account }) => {
       <div>
         <h2>Buy Credits</h2>
         <input
+          type="text"
+          placeholder="Enter Organization Address"
+          value={organizationAddress}
+          onChange={(e) => setOrganizationAddress(e.target.value.toString())}
+          className="border rounded-md px-3 py-2 w-64 focus:outline-none focus:border-blue-500"
+        />
+
+        <br />
+        <br />
+        <input
           type="number"
           placeholder="Enter Credits Amount"
           value={creditsAmount}
-          onChange={(e) => setCreditsAmount(Number(e.target.value))}
+          onChange={(e) => setCreditsAmount(e.target.value)}
           className="border rounded-md px-3 py-2 w-64 focus:outline-none focus:border-blue-500"
         />
+
+        <br />
+        <br />
         <button
           onClick={handleBuyCredits}
           className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"

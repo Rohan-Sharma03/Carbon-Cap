@@ -8,6 +8,7 @@ import Organization from "./Organization";
 function App() {
   const [connectedAccount, setConnectedAccount] = useState("");
   const [accountBalance, setAccountBalance] = useState(0);
+  
 
   useEffect(() => {
     const loadWeb3 = async () => {
@@ -54,7 +55,10 @@ function App() {
               path="/factory"
               element={<Factory account={connectedAccount} />}
             />
-            <Route path="/organization" element={<Organization />} />
+            <Route
+              path="/organization"
+              element={<Organization account={connectedAccount} />}
+            />
           </Routes>
         </Router>
       </div>

@@ -29,11 +29,13 @@ contract CarbonCap {
     mapping(address => CarbonCredit) public availableCredits;
     mapping(address => bool) public certifiedOrganizations;
     mapping(address => uint) public registrationFeesPaid;
+    mapping(address => bool) public registrationFeePaidByOrganization; // Track if organization paid registration fee
 
-    uint public registrationFee;
+
+    uint public registrationFee = 1 ether;
     bool public registrationFeeFinalized;
 
-    event RegistrationFeePaid(address indexed payer, uint amount);
+    event RegistrationFeePaid(address indexed receiver,address indexed payer, uint amount);
     event CreditsPurchased(address indexed buyer, address indexed organization, uint amount);
 
     // Modifier to check if the registration fee is finalized
@@ -60,14 +62,24 @@ contract CarbonCap {
         _;
     }
 
+    modifier onlyUnregisteredFactory(address factory) {
+    require(!isRegisteredFactory(factory), "Factory is already registered.");
+    _;
+}
+modifier onlyUnregisteredOrganization(address organization) {
+    require(!certifiedOrganizations[organization], "Organization is already certified.");
+    _;
+}
+
     constructor() payable {
         governmentBody = payable(msg.sender);
     }
 
     // Function to register a factory by the government body
-    function registerFactory(address factory) public onlyGovernmentBody {
-        registeredFactories.push(payable(factory));
-    }
+function registerFactory(address factory) public onlyGovernmentBody onlyUnregisteredFactory(factory) {
+    registeredFactories.push(payable(factory));
+}
+
 
     // Function to record emissions data by registered factories
     function recordEmissions(uint emissions) public onlyRegisteredFactory {
@@ -118,27 +130,35 @@ contract CarbonCap {
     }
 
     // Function for registered organizations to pay the registration fee
-    function payRegistrationFee() external payable onlyRegisteredOrganization {
-        registrationFeesPaid[msg.sender] += msg.value; // Track the fee paid by the organization
-        payable(governmentBody).transfer(registrationFee);
-        emit RegistrationFeePaid(msg.sender, msg.value); // Log the registration fee payment
-    }
+        function payRegistrationFee() external payable onlyRegisteredOrganization {
+            require(!registrationFeePaidByOrganization[msg.sender], "Registration fee already paid.");
+            // require(msg.value>=registrationFee, "Pay minimum Registration fees ");
+            emit RegistrationFeePaid(governmentBody,msg.sender, msg.value); // Log the registration fee payment
+            registrationFeesPaid[msg.sender] += msg.value; // Track the fee paid by the organization
+            registrationFeePaidByOrganization[msg.sender] = true; // Mark fee as paid by the organization
+            payable(governmentBody).transfer(msg.value); // transfer fees to goverment
+        }
+
+    
 
     // Function for registered factories to buy credits from a certified organization
-    function buyCreditsFromOrganization(address payable organization, uint creditsAmount) external onlyRegisteredFactory {
-        require(certifiedOrganizations[organization], "Organization is not certified.");
-        require(creditsAmount > 0, "Credits amount should be greater than zero.");
+// Function for registered factories to buy credits from a certified organization
+function buyCreditsFromOrganization(address payable organization, uint creditsAmount) external onlyRegisteredFactory {
+    require(certifiedOrganizations[organization], "Organization is not certified.");
+    require(creditsAmount > 0, "Credits amount should be greater than zero.");
+    require(registrationFeePaidByOrganization[organization], "Organization must pay registration fee.");
 
-        uint creditsPrice = creditsAmount * 2; // Calculate the price for the requested credits
-        require(address(this).balance >= creditsPrice, "Insufficient Ether balance in the contract.");
+    uint creditsPrice = creditsAmount * 2; // Calculate the price for the requested credits
+    // require(address(this).balance >= creditsPrice, "Insufficient Ether balance in the contract.");
 
-        organization.transfer(creditsPrice); // Transfer Ether (2 times the credits price) to the organization
+    organization.transfer(creditsPrice); // Transfer Ether (2 times the credits price) to the organization
 
-        availableCredits[msg.sender].amount += creditsAmount; // Update factory's available credits
-        availableCredits[msg.sender].organization = organization;
+    availableCredits[msg.sender].amount += creditsAmount; // Update factory's available credits
+    availableCredits[msg.sender].organization = organization;
 
-        emit CreditsPurchased(msg.sender, organization, creditsAmount); // Log the purchase of credits
-    }
+    emit CreditsPurchased(msg.sender, organization, creditsAmount); // Log the purchase of credits
+}
+
 
     // Function for the government body to withdraw Ether from the contract
     function withdrawEther(uint amount) external onlyGovernmentBody {
@@ -147,10 +167,10 @@ contract CarbonCap {
     }
 
     // Function for the government body to certify an organization
-    function certifyOrganization(address organization) public onlyGovernmentBody registrationFeeIsFinalized {
-        certifiedOrganizations[organization] = true;
-        registeredOrganizations.push(payable(organization));
-    }
+function certifyOrganization(address organization) public onlyGovernmentBody onlyUnregisteredOrganization(organization) registrationFeeIsFinalized {
+    certifiedOrganizations[organization] = true;
+    registeredOrganizations.push(payable(organization));
+}
 
     // Internal function to check if an address is a registered factory
     function isRegisteredFactory(address _address) internal view returns (bool) {
